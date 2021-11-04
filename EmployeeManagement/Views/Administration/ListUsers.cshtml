@@ -1,0 +1,44 @@
+﻿@model IEnumerable<ApplicationUser>
+
+@{
+    ViewBag.PageTitle = "List Users";
+}
+
+<h1>List All Users</h1>
+<div class="py-3">
+    <a class="btn btn-primary" asp-action="Register" asp-controller="Account" style="width:auto">Register</a>
+</div>
+     
+@if (Model.Any())
+{
+    foreach (var user in Model)
+    {
+        <div class="card mb-3">
+            <div class="card-header">
+                <h5>Role ID: @user.Id</h5>
+            </div>
+            <div class="card-body">
+                <h3>@user.Email</h3>
+            </div>
+            <div class="card-footer">
+                <a class="btn btn-primary" asp-action="EditUser" asp-controller="Administration" asp-route-id="@user.Id" style="width:auto">Edit</a>
+                <a class="btn btn-primary" asp-action="DeleteUser" asp-controller="Administration" style="width:auto">Delete</a>
+            </div>
+        </div>
+    }
+}
+else
+{
+    <div class="card">
+        <div class="card-header">
+            <h3>There is no user in List Users</h3>
+        </div>
+        <div class="card-body">
+            <h5>Please click Register to add more user into the list</h5>
+        </div>
+        <div class="card-footer">
+            
+        </div>
+    </div>
+}
+

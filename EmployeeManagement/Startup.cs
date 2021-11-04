@@ -1,7 +1,11 @@
 using EmployeeManagement.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -24,27 +28,47 @@ namespace EmployeeManagement
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc(x => x.EnableEndpointRouting = false).AddXmlSerializerFormatters();
+            services.AddDbContextPool<AppDbContext>(options => options.UseSqlServer(config.GetConnectionString("DBCS")));
 
-            services.AddSingleton<IEmployeeRepository, MockEmployeeRepository>();
+            services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<AppDbContext>();
+
+            services.AddMvc(options => {
+                var policy = new AuthorizationPolicyBuilder()
+                                    .RequireAuthenticatedUser()
+                                    .Build();
+                options.Filters.Add(new AuthorizeFilter(policy));
+                options.EnableEndpointRouting = false;
+            }).AddXmlSerializerFormatters();
+
+
+
+
+            services.AddScoped<IEmployeeRepository, SqlEmployeeRepository>();
             
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger<Startup> logger)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            else
+            {
+                app.UseExceptionHandler("/Error");
+                app.UseStatusCodePagesWithReExecute("/Error/{0}");
+            }
             app.UseStaticFiles();
 
+            app.UseAuthentication();
             //app.UseMvcWithDefaultRoute();
 
-            //app.UseMvc(routes =>
-            //{
-            //    routes.MapRoute("default", "{controller=Home}/{action=Index}/{id?}");
-            //});
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute("default", "{controller=Home}/{action=Index}/{id?}");
+            });
+
+
         }
     }
 }

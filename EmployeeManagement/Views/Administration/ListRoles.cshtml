@@ -1,0 +1,40 @@
+﻿@model IEnumerable<Microsoft.AspNetCore.Identity.IdentityRole>
+
+@{
+    ViewBag.PageTitle = "Create Role";
+}
+
+<h1>List Roles</h1>
+
+@if (Model.Any())
+{
+    foreach (var role in Model)
+    {
+        <div class="card mb-3">
+            <div class="card-header">
+                <h5>Role ID: @role.Id</h5>
+            </div>
+            <div class="card-body">
+                <h3>@role.Name</h3>
+            </div>
+            <div class="card-footer">
+                <a class="btn btn-primary" asp-action="EditRole" asp-controller="Administration" asp-route-id="@role.Id" style="width:auto">Edit</a>
+                <a class="btn btn-primary" asp-action="DeleteRole" asp-controller="Administration" style="width:auto">Delete</a>
+            </div>
+        </div>
+    }
+}
+else
+{
+    <div class="card">
+        <div class="card-header">
+            <h3>There is no role in List Roles</h3>
+        </div>
+        <div class="card-body">
+            <h5>Please click Create Role to add more role to the list</h5>
+        </div>
+        <div class="card-footer">
+            <a class="btn btn-primary" asp-action="CreateRole" asp-controller="Administration" style="width:auto">Create Role</a>
+        </div>
+    </div>
+}

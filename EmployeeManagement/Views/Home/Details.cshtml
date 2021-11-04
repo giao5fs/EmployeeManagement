@@ -2,16 +2,31 @@
 
 @{
     ViewBag.Title = "Employee Details";
+    var photoPath = "~/images/" + (Model.Employee.PhotoPath ?? "noimage.jpg");
 }
 
-<body>
-    <h3>@ViewBag.PageTitle</h3>
-    <h5>@Model.Employee.Name</h5>
-    <h5>@Model.Employee.Department</h5>
-    <h5>@Model.Employee.Email</h5>
+<div class="row m-3 justify-content-center">
 
+    <div class="col-sm-5">
+        <div class="card">
+            <div class="card-header">
+                <h1>@Model.Employee.Name</h1>
+            </div>
+            <div class="card-body text-center">
+                <img src="@photoPath" class="card-img-top" asp-append-version="true">
+                <h4 class="card-title">EmployeeID: @Model.Employee.Id</h4>
+                <h4 class="card-title">Email: @Model.Employee.Email</h4>
+                <h4 class="card-title">department: @Model.Employee.Department</h4>
+            </div>
 
-</body>
+            <div class="card-footer text-center">
+                <a asp-controller="Home" asp-action="Edit" asp-route-id=@Model.Employee.Id class="btn btn-primary">Edit</a>
+                <button type="button" class="btn btn-danger">Delete</button>
+            </div>
+        </div>
+    </div>
+
+</div>
 
 @section Script{
     <script src="~/js/CustomScript.js"></script>

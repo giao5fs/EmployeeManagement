@@ -1,0 +1,42 @@
+﻿@model EmployeeEditViewModel
+
+@{
+    ViewBag.PageTitle = "Edit Employee";
+    var photoPath = "~/images/" + (Model.ExistPhoto ?? "noimage.jpg");
+}
+
+<div class="col-lg-6">
+    <form enctype="multipart/form-data" method="post">
+        <div class="mb-3">
+            <input hidden asp-for="Id" />
+            <input hidden asp-for="ExistPhoto" />
+            <label asp-for="Name" class="form-label">Name</label>
+            <input asp-for="Name" class="form-control" placeholder="Name">
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Email" class="form-label">Email</label>
+            <input asp-for="Email" class="form-control" placeholder="Email">
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+        <div class="mb-3">
+            <label asp-for="Department" class="form-label">Department</label>
+            <select class="form-select" asp-for="Department" asp-items="Html.GetEnumSelectList<Dept>()">
+                <option selected>Open this select menu</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Photos">Choose File Upload</label>
+            <input asp-for="Photos" multiple class="form-control">
+        </div>
+        <div asp-validation-summary="All" class="text-danger"></div>
+
+        <div class="row-cols-3 text-center"><img src="@photoPath" style="max-height:200px; width:auto" asp-append-version="true" /></div>
+
+        <div class="mt-3">
+            <button type="submit" class="btn btn-primary">Update</button>
+            <a class="btn btn-danger" asp-controller="Home" asp-action="Index">Cancel</a>
+        </div>
+    </form>
+</div>

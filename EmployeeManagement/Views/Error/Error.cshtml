@@ -1,0 +1,23 @@
+﻿@{
+    ViewBag.Title = "Error";
+}
+<h3>Error processing your request</h3>
+<h5>Please contact to ...</h5>
+<hr />
+<div class="alert alert-danger">
+    <h5>Exception Path</h5>
+    <p>@ViewBag.ExceptionPath</p>
+</div>
+<hr />
+
+<div class="alert alert-danger">
+    <h5>Error Message</h5>
+    <p>@ViewBag.ErrorMessage</p>
+</div>
+<hr />
+
+<div class="alert alert-danger">
+    <h5>Stack Trace</h5>
+    <p>@ViewBag.StackTrace</p>
+</div>
+<hr />
