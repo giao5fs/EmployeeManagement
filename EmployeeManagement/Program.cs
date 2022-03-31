@@ -41,7 +41,8 @@ namespace EmployeeManagement
                 {
                     webBuilder.UseKestrel()
                     .UseIISIntegration()
-                    .UseStartup<Startup>();
+                    .UseStartup<Startup>()
+                    .UseUrls("http://localhost:5000");
                 })
                 .ConfigureLogging((hostingContext, logging) =>
                 {
