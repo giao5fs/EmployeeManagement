@@ -32,15 +32,19 @@ namespace EmployeeManagement
                 // Ensure to flush and stop internal timers/threads before application-exit (Avoid segmentation fault on Linux)
                 NLog.LogManager.Shutdown();
             }
+
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseStartup<Startup>();
+                    webBuilder.UseKestrel()
+                    .UseIISIntegration()
+                    .UseStartup<Startup>();
                 })
-                .ConfigureLogging((hostingContext, logging) => {
+                .ConfigureLogging((hostingContext, logging) =>
+                {
                     logging.AddConfiguration(hostingContext.Configuration.GetSection("Logging"));
                     //logging.ClearProviders();
                     //logging.SetMinimumLevel(LogLevel.Trace);
