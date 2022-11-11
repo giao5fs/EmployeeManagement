@@ -2,7 +2,7 @@
 
 namespace EmployeeManagement.Migrations
 {
-    public partial class losttower : Migration
+    public partial class First : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
